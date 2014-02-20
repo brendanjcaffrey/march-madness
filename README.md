@@ -14,3 +14,5 @@ Ruby 2.0.0 or greater (check via `ruby -v`, see [rvm](rvm.io) for help upgrading
 * Be sure to download both ruby and the DevKit. For this project we are using Ruby 2.0.0
 * Run the ruby installer. There should be no errors.
 * Follow [these](https://github.com/oneclick/rubyinstaller/wiki/Development-Kit) directions for the DevKit.
+* For me I had to manually change my config.yml when installing the dev kit. I added ` - C:\Program Files\Ruby200-x64` to the last line. But you will need to make sure that path name matches where ruby is installed on your machine.
+* For me I had to make sure ruby and the ruby devkit were installed to locations without a space in the path.
