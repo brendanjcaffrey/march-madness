@@ -1,6 +1,11 @@
 class MainController < ApplicationController
   def root
-    @teams = {1 => 'UIUC', 2 => 'IU'}
+    @conferences = {}
+    Conference.includes(:teams).each do |conf|
+      teams = {}
+      conf.teams.each { |team| teams[team.id] = team.name }
+      @conferences[conf.name] = teams
+    end
   end
 
   def predict
