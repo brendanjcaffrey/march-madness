@@ -1,0 +1,7 @@
+<% @conferences.each do |conf, teams| %>
+  <optgroup label="<%= conf %>">
+  <% teams.each do |id, name| %>
+    <option id="<%= id %>"><%= name %></option>
+  <% end %>
+  </optgroup>
+<% end %>
