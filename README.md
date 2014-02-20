@@ -12,3 +12,5 @@ Ruby 2.0.0 or greater (check via `ruby -v`, see [rvm](rvm.io) for help upgrading
 ## Installing Ruby on windows
 * Download the installer from 'http://rubyinstaller.org/downloads' 
 * Be sure to download both ruby and the DevKit. For this project we are using Ruby 2.0.0
+* Run the ruby installer. There should be no errors.
+* Follow [these](https://github.com/oneclick/rubyinstaller/wiki/Development-Kit) directions for the DevKit.
