@@ -7,7 +7,12 @@ Ruby 2.0.0 or greater (check via `ruby -v`, see [rvm](rvm.io) for help upgrading
 ## Instructions
 * Clone the repository (`git clone git@github.com:brendanjcaffrey/march-madness.git`)
 * Run `bundle install` to install dependencies (and the correct version of Rails)
+* Run `rake db:migrate` to create the needed database tables
 * Use `bundle exec rails s` to start the server on port 3000
+
+## To run tests
+* Use `rake db:test:prepare` to build a test database
+* Run `bundle exec rspec` to run all tests, you can pass in a file name to run a specific one
 
 ## Installing Ruby on windows
 * Download the installer from 'http://rubyinstaller.org/downloads' 
