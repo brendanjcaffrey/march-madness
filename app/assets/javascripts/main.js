@@ -1,6 +1,14 @@
 $( document ).ready(function() {
   loading = false;
 
+  reset_prediction = function(e) {
+    $('#prediction').text('');
+    $('#prediction').removeClass('error');
+  }
+
+  $('#team1').change(reset_prediction);
+  $('#team2').change(reset_prediction);
+
   $('#teams').submit(function(e) {
     e.preventDefault();
     if (loading) return;
@@ -10,7 +18,8 @@ $( document ).ready(function() {
     team2 = $('#team2 option:selected')[0].id;
     team2_name = $('#team2 option:selected').text();
     if (team1 == team2) {
-      alert('must select different teams');
+      $('#prediction').text('You must select different teams!')
+      $('#prediction').addClass('error')
       return;
     }
 
@@ -18,12 +27,14 @@ $( document ).ready(function() {
     $.ajax({
       url: '/predict/' + team1 + '/' + team2
     }).done(function(data) {
+      winner_text = 'Predicted winner: '
       if (data.winner == '0') {
-        alert('Predicted winner: ' + team1_name);
+        winner_text += team1_name;
       } else {
-        alert('Predicted winner: ' + team2_name);
+        winner_text += team2_name;
       }
 
+      $('#prediction').text(winner_text);
       loading = false;
     });
   });
