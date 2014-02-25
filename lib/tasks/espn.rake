@@ -11,6 +11,7 @@ namespace :espn do
     confs = leagues[0].leagues[0][:groups][0][:groups]
 
     confs.each { |c|
+      sleep 1.0
       conf = Conference.create(name: c.shortName)
 
       teams = client.teams('basketball', 'mens-college-basketball', group: c.groupId)	
