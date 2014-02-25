@@ -10,10 +10,20 @@ Ruby 2.0.0 or greater (check via `ruby -v`, see [rvm](rvm.io) for help upgrading
 * Run `rake db:migrate` to create the needed database tables
 * Run `rake db:seed` to load test data or `rake espn:scrape` to scrape teams and conferences from ESPN
 * Use `bundle exec rails s` to start the server on port 3000
+* To run the integration tests, you must install [phantom.js](http://phantomjs.org/download.html), which is a headless WebKit instance
 
 ## To run tests
 * Use `rake db:test:prepare` to build a test database
-* Run `bundle exec rspec` to run all tests, you can pass in a file name to run a specific one
+* Run `bundle exec rspec` to run all unit tests, you can pass in a file name to run a specific one
+* Run `bundle exec rake cucumber` to run all integration tests
+* Run `bundle exec rake` to run both kinds of tests
+
+## Troubleshooting
+* Something about bundle? Run `bundle install`
+* Something about migrations pending? Run `rake db:migrate`
+* Tests not running? Try `rake db:test:prepare`
+* Need test data? Run `rake db:seed` (this will delete anything in the database)
+* Need to scrape data from ESPN? Run `rake espn:scrape` (this will also delete anything in the database)
 
 ## Installing Ruby on windows
 * Download the installer from 'http://rubyinstaller.org/downloads' 
