@@ -11,13 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140220203428) do
+ActiveRecord::Schema.define(version: 20140303203834) do
 
   create_table "conferences", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "schedules", force: true do |t|
+    t.string   "date"
+    t.string   "location"
+    t.string   "opponent"
+    t.boolean  "isWinner"
+    t.integer  "teamScore"
+    t.integer  "oppScore"
+    t.integer  "temp_team_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "schedules", ["temp_team_id"], name: "index_schedules_on_temp_team_id"
 
   create_table "teams", force: true do |t|
     t.string   "name"
@@ -27,5 +41,12 @@ ActiveRecord::Schema.define(version: 20140220203428) do
   end
 
   add_index "teams", ["conference_id"], name: "index_teams_on_conference_id"
+
+  create_table "temp_teams", force: true do |t|
+    t.string   "name"
+    t.string   "webExt"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end
