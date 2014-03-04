@@ -1,6 +1,7 @@
 require "mechanize"
 require "nokogiri"
 
+# Helper functions for Scraping ESPN
 module EspnScraperHelper
   # Gets all the teams and all the conferences, puts them in their specified hash
   #	confs - hash for conference -> teams [] 
@@ -8,6 +9,8 @@ module EspnScraperHelper
   # TODO: Fill the conference arrays
   def get_teams
     #Set Up
+    TempTeam.delete_all
+
     url = "http://espn.go.com/mens-college-basketball/teams"
     agent = Mechanize.new
     html = agent.get(url).body
@@ -30,8 +33,17 @@ module EspnScraperHelper
     }
   end
 
+  # Loops through all teams and calls get_team_schedule
+  def get_all_schedules
+    Schedule.delete_all
 
-  # Gets a team's schedule and creates a file for the the team in a specified format
+    TempTeam.find_each do |team|
+      get_team_schedule(team)
+      sleep 15.0
+    end
+  end
+
+  # Gets a team's schedule and adds to database
   # 	name - team name
   #	id - ESPN id for the team
   #TODO:make classes, make tests, find proper way to output, ensure file pointer is closed
@@ -70,16 +82,15 @@ module EspnScraperHelper
         tScore = 0
         oScore = 0
         if(result)
-          tScore = scores[0].to_i
-          oScore = scores[1].to_i
+          tScore = scores[0][0].to_i
+          oScore = scores[0][1].to_i
         else
-          tmScore = scores[1].to_i
-          oScore = scores[0].to_i
+          tScore = scores[0][1].to_i
+          oScore = scores[0][0].to_i
         end
 
         Schedule.create(date: date, location: loc, opponent: opp, isWinner: result, teamScore: tScore, oppScore: oScore, temp_team: team)
       end
     end
-    sleep 15.0
   end
 end
