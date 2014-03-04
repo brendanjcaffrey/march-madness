@@ -16,6 +16,7 @@ Ruby 2.0.0 or greater (check via `ruby -v`, see [rvm](rvm.io) for help upgrading
 ## To run tests
 * Use `rake db:test:prepare` to build a test database
 * Run `bundle exec rspec` to run all unit tests, you can pass in a file name to run a specific one
+* ---Use the parameter `-fd` for more details about passing tests
 * Run `bundle exec rake cucumber` to run all integration tests
 * Run `bundle exec rake` to run both kinds of tests
 
