@@ -13,7 +13,6 @@ When(/^I select "(.*?)" for team (\d+)$/) do |team_name, team_number|
 end
 
 When(/^I ask for a prediction$/) do
-  page.save_screenshot('/Users/Brendan/test.png', full: true)
   click_button('Get Prediction')
 end
 
@@ -30,7 +29,7 @@ Then(/^it should not show a prediction$/) do
 end
 
 Then(/^it should have the error css class$/) do
-  expect(page).to have_css('div#prediction.error')
+  expect(page).to have_css('#prediction.error')
 end
 
 Then(/^it should not have the error css class$/) do
