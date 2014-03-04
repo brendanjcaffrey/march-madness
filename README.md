@@ -7,8 +7,6 @@ Ruby 2.0.0 or greater (check via `ruby -v`, see [rvm](rvm.io) for help upgrading
 ## Instructions
 * Clone the repository (`git clone git@github.com:brendanjcaffrey/march-madness.git`)
 * Run `bundle install` to install dependencies (and the correct version of Rails)
-* Run `rails generate bootstrap:install` to generate and add bootstrap css and javascript to assests 
-(I am working on making this happen automatically)
 * Run `rake db:migrate` to create the needed database tables
 * Run `rake db:seed` to load test data or `rake espn:scrape` to scrape teams and conferences from ESPN
 * Run `rake schedules:scrape` to scrape game results from ESPN
