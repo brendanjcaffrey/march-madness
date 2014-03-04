@@ -1,10 +1,14 @@
-<h3>March Madness Matchup</h3>
-<p>Enter a two team matchup and view the predicted winner</p>
-<form id="teams">
-  <label>Team 1: <select id="team1"><%= render 'main/teams' %></select></label><br />
-  <label>Team 2: <select id="team2"><%= render 'main/teams' %></select></label><br />
-  <input type="submit" value="Get Prediction" />
-</form>
+<div class="container">
+	<div class="page-header">
+		<h1>March Madness Matchup</h1>
+		<p class="lead">Enter a two team matchup and view the predicted winner.</p>
+	</div>
+	
+	<form id="teams">
+	  <label>Team 1: <select id="team1"><%= render 'main/teams' %></select></label><br />
+	  <label>Team 2: <select id="team2"><%= render 'main/teams' %></select></label><br />
+	  <input type="submit" class="btn btn-primary" value="Get Prediction" />
+	</form>
 
-<div id="prediction"></div>
-
+	<h4 id="prediction"></h4>
+</div>
