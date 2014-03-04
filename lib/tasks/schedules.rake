@@ -6,14 +6,8 @@ include EspnScraperHelper
 namespace :schedules do
   desc 'Create files for each teams most up to date schedules'
   task :scrape => :environment do
-    Schedule.delete_all
-    TempTeam.delete_all
-
     EspnScraperHelper.get_teams()
-
-    Temp_team.find_each do |team|
-      EspnScraperHelper.get_team_schedule(team)
-    end
+    EspnScraperHelper.get_all_schedules()
   end
 end
 
