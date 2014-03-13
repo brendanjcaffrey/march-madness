@@ -3,10 +3,10 @@ require "nokogiri"
 
 # Helper functions for Scraping ESPN
 module EspnScraperHelper
+
   # Gets all the teams and all the conferences, puts them in their specified hash
   #	confs - hash for conference -> teams [] 
   #	teams - hash for team -> id
-  # TODO: Fill the conference arrays
   def get_teams
     #Set Up
     TempTeam.delete_all
@@ -33,6 +33,64 @@ module EspnScraperHelper
     }
   end
 
+=begin
+  def get_confs()
+    url = "http://espn.go.com/mens-college-basketball/conferences"
+    agent = Mechanize.new
+    html = agent.get(url).body
+    doc = Nokogiri::HTML(html)
+
+    list = doc.xpath("//ul[@class='medium-logos']")
+
+    list.css("li").each { |li|
+      name = li.css("h5").text
+      webExt = doc.at_xpath('//a[text()="'+name+'"]')['href']
+      logo = li.at_css("img")['src']
+      confs[name] = [webExt, teams]
+      conf = Conference.create(name: name, webExt: webExt, logo: logo)   
+      get_teams_helper(conf)
+    }
+  end
+
+  def get_teams_helper(conf)
+    #Set Up
+    url = "http://espn.com#{conf.webExt}"
+    agent = Mechanize.new
+    html = agent.get(url).body
+    doc = Nokogiri::HTML(html)
+
+    table = doc.xpath('//table[@class = "mod-data"]')
+    rows = table.css('tr')
+
+    rows.each  do |row|
+      col = row.css("td")
+      if(col.count == 4)
+
+        nameRank = col[0].text.scan((/(#)*(\d+ )*(.*)/))
+        name = nameRank[0][2]
+        if(nameRank[0][1] != nil)
+          rank = nameRank[0][1]
+        else
+          rank = -1
+        end
+
+        webpage = doc.at_xpath('//a[text()="'+name+'"]')['href']
+        webExt = webpage.scan(/\d+.*/)
+
+        confWL = col[1].text.scan((/(\d+)-(\d+)/))
+        confW = confWL[0][0].to_i
+        confL = confWL[0][1].to_i
+        
+        ovrWL = col[3].text.scan((/(\d+)-(\d+)/))
+        ovrW = ovrWL[0][0].to_i
+        ovrL = ovrWL[0][1].to_i
+
+        Team.create(name: name, rank: rank, webExt: webExt, conferenceWins: confW, conferenceLosses: confL, wins: ovrW, losses: oveL, conference: conf)
+      end
+    end
+  end
+=end
+
   # Loops through all teams and calls get_team_schedule
   def get_all_schedules
     Schedule.delete_all
@@ -46,7 +104,6 @@ module EspnScraperHelper
   # Gets a team's schedule and adds to database
   # 	name - team name
   #	id - ESPN id for the team
-  #TODO:make classes, make tests, find proper way to output, ensure file pointer is closed
   def get_team_schedule (team)
     #Set Up
     url = "http://espn.go.com/mens-college-basketball/team/schedule/_/id/#{team.webExt}"
