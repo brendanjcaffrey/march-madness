@@ -7,7 +7,7 @@ class CreateSchedules < ActiveRecord::Migration
       t.boolean :isWinner
       t.integer :teamScore
       t.integer :oppScore
-      t.belongs_to :temp_team, index: true
+      t.belongs_to :team, index: true
 
       t.timestamps
     end

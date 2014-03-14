@@ -33,7 +33,19 @@ module EspnScraperHelper
     }
   end
 
-=begin
+
+  def get_teams_and_confs()
+    Conference.delete_all
+    Team.delete_all
+
+    get_confs()
+
+    Conference.find_each do |conf|
+      get_teams_from_conf(conf)
+      sleep 5.0
+    end
+  end
+
   def get_confs()
     url = "http://espn.go.com/mens-college-basketball/conferences"
     agent = Mechanize.new
@@ -46,13 +58,12 @@ module EspnScraperHelper
       name = li.css("h5").text
       webExt = doc.at_xpath('//a[text()="'+name+'"]')['href']
       logo = li.at_css("img")['src']
-      confs[name] = [webExt, teams]
       conf = Conference.create(name: name, webExt: webExt, logo: logo)   
-      get_teams_helper(conf)
+      get_teams_from_conf(conf)
     }
   end
 
-  def get_teams_helper(conf)
+  def get_teams_from_conf(conf)
     #Set Up
     url = "http://espn.com#{conf.webExt}"
     agent = Mechanize.new
@@ -75,7 +86,7 @@ module EspnScraperHelper
         end
 
         webpage = doc.at_xpath('//a[text()="'+name+'"]')['href']
-        webExt = webpage.scan(/\d+.*/)
+        webExt = webpage.scan(/\d+.*/)[0]
 
         confWL = col[1].text.scan((/(\d+)-(\d+)/))
         confW = confWL[0][0].to_i
@@ -85,17 +96,17 @@ module EspnScraperHelper
         ovrW = ovrWL[0][0].to_i
         ovrL = ovrWL[0][1].to_i
 
-        Team.create(name: name, rank: rank, webExt: webExt, conferenceWins: confW, conferenceLosses: confL, wins: ovrW, losses: oveL, conference: conf)
+        Team.create(name: name, rank: rank, webExt: webExt, conferenceWins: confW, conferenceLosses: confL, wins: ovrW, losses: ovrL, conference: conf)
       end
     end
   end
-=end
+
 
   # Loops through all teams and calls get_team_schedule
   def get_all_schedules
     Schedule.delete_all
 
-    TempTeam.find_each do |team|
+    Team.find_each do |team|
       get_team_schedule(team)
       sleep 15.0
     end
@@ -146,7 +157,7 @@ module EspnScraperHelper
           oScore = scores[0][0].to_i
         end
 
-        Schedule.create(date: date, location: loc, opponent: opp, isWinner: result, teamScore: tScore, oppScore: oScore, temp_team: team)
+        Schedule.create(date: date, location: loc, opponent: opp, isWinner: result, teamScore: tScore, oppScore: oScore, team: team)
       end
     end
   end

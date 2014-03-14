@@ -1,3 +1,3 @@
 class Schedule < ActiveRecord::Base
-  belongs_to :temp_team
+  belongs_to :team
 end
