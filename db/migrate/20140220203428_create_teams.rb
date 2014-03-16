@@ -8,6 +8,33 @@ class CreateTeams < ActiveRecord::Migration
       t.integer :conferenceLosses
       t.integer :wins
       t.integer :losses
+      t.float :points
+      t.float :fgm
+      t.float :fga
+      t.float :fgPer
+      t.float :twoMade
+      t.float :twoAtt
+      t.float :twoPer
+      t.float :threeMade
+      t.float :threeAtt
+      t.float :threePer
+      t.float :ftm
+      t.float :fta
+      t.float :ftPer
+      t.float :offReb
+      t.float :defReb
+      t.float :totalReb
+      t.float :pps
+      t.float :adjFG
+      t.float :assist
+      t.float :to
+      t.float :apto
+      t.float :steals
+      t.float :fouls
+      t.float :stealPerTO
+      t.float :stealPerFoul
+      t.float :blocks
+      t.float :blocksPerFoul
       t.belongs_to :conference, index: true
 
       t.timestamps
