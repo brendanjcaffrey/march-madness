@@ -9,6 +9,7 @@ namespace :schedules do
     #EspnScraperHelper.get_teams()
     EspnScraperHelper.get_teams_and_confs()
     #EspnScraperHelper.get_all_schedules()
+    EspnScraperHelper.get_all_games()
   end
 end
 
