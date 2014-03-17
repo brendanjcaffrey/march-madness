@@ -4,38 +4,7 @@ require "nokogiri"
 # Helper functions for Scraping ESPN
 module EspnScraperHelper
 
-  # Gets all the teams and all the conferences, puts them in their specified hash
-  #	confs - hash for conference -> teams [] 
-  #	teams - hash for team -> id
-#OLDOLDOLD
-  def get_teams
-    #Set Up
-    TempTeam.delete_all
-
-    url = "http://espn.go.com/mens-college-basketball/teams"
-    agent = Mechanize.new
-    html = agent.get(url).body
-    doc = Nokogiri::HTML(html)
-
-    #Get Conferences
-    confs_html = doc.xpath("//div[@class='mod-header colhead']")
-    confs_html.each { |c| 
-      #c.txt is conference name
-    }
-
-    #Get Teams
-    teams_html = doc.xpath("//h5")
-    teams_html.each { |t| 
-      name = t.text
-      webpage = doc.at_xpath('//a[text()="'+name+'"]')["href"]
-      ext = webpage.scan(/\d+.*/)[0]
-
-      TempTeam.create(name: name, webExt: ext)
-    }
-  end
-
-
-  def get_teams_and_confs()
+  def get_teams()
     Conference.delete_all
     Team.delete_all
 
@@ -43,11 +12,17 @@ module EspnScraperHelper
 
     Conference.find_each do |conf|
       get_teams_from_conf(conf)
+      sleep 2.0
       get_team_scoring_stats(conf)
+      sleep 2.0
       get_team_adv_scoring_stats(conf)
+      sleep 2.0
       get_team_assists_stats(conf) 
+      sleep 2.0
       get_team_rebounds_stats(conf)
+      sleep 2.0
       get_team_steals_stats(conf)
+      sleep 2.0
       get_team_blocks_stats(conf)
       sleep 10.0
     end
@@ -293,6 +268,7 @@ module EspnScraperHelper
     end 
   end
 
+=begin
   # Loops through all teams and calls get_team_schedule
   def get_all_schedules
     Schedule.delete_all
@@ -352,13 +328,11 @@ module EspnScraperHelper
       end
     end
   end
+=end
 
-  def get_all_games
+  def get_games
     Game.delete_all
-i = 1
     Team.find_each do |team|
-puts i
-i = i+1
       puts team.name
       get_team_games(team)
       sleep 10.0
@@ -398,7 +372,7 @@ i = i+1
             game = Game.create(gameID: gameID, date: date, homeTeam: homeTeam, awayTeam: awayTeam)
             get_game_stats(game)
 
-            sleep 5.0
+            sleep 2.0
           end
         end
       end
