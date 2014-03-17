@@ -8,8 +8,8 @@ Ruby 2.0.0 or greater (check via `ruby -v`, see [rvm](rvm.io) for help upgrading
 * Clone the repository (`git clone git@github.com:brendanjcaffrey/march-madness.git`)
 * Run `bundle install` to install dependencies (and the correct version of Rails)
 * Run `rake db:migrate` to create the needed database tables
-* Run `rake db:seed` to load test data or `rake espn:scrape` to scrape teams and conferences from ESPN
-* Run `rake schedules:scrape` to scrape game results from ESPN
+* Run `rake db:seed` to load test data or `rake espnAPI:scrape` to scrape teams and conferences from ESPN
+* Run `rake espn:scrape` to scrape team stats and game results from ESPN
 * Use `bundle exec rails s` to start the server on port 3000
 * To run the integration tests, you must install [phantom.js](http://phantomjs.org/download.html), which is a headless WebKit instance
 

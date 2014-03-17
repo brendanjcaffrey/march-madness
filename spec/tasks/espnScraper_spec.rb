@@ -4,9 +4,30 @@ require "#{Rails.root}/app/helpers/espn_scraper_helper"
 include EspnScraperHelper
 
 describe EspnScraperHelper do
+  before(:all) do
+    Conference.delete_all
+    Team.delete_all
+    Game.delete_all
+    EspnScraperHelper.get_confs()
+  end
+
+  describe '.get_confs()' do
+    describe 'scrape ESPN and populate Conferences' do
+
+      it 'Conference should contain 33 entries' do
+        assert(Conference.all.count == 33)
+      end 
+
+    
+   
+    end
+  end
+
+
+=begin
   describe '.get_teams' do
     describe 'scrape ESPN and populate temp_teams with all teams and web extensions' do
-=begin
+
       EspnScraperHelper.get_teams
 
       illinois = TempTeam.find_by! name: 'Illinois'
@@ -32,14 +53,14 @@ describe EspnScraperHelper do
       it 'all teams should have a webExt' do
         assert(TempTeam.where(webExt: nil).count == 0)
       end
-=end   
+   
     end
   end
 #number of games for illinois 29
 #one game for illinois (all stats)
   describe '.get_teams' do
     describe 'scrape ESPN and populate temp_teams with all teams and web extensions' do
-=begin    
+  
   EspnScraperHelper.get_team_schedule(TempTeam.find_by! name: 'Illinois')
       it 'schedules is not empty' do
         assert(Schedule.all != nil)
@@ -68,7 +89,8 @@ describe EspnScraperHelper do
         assert(game.teamScore == 80)
         assert(game.oppScore == 63)
       end
-=end
+
     end
   end
+=end
 end
