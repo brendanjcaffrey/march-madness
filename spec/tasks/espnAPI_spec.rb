@@ -1,14 +1,14 @@
 require 'spec_helper'
 require 'rake'
 
-describe 'espn:scrape' do
+describe 'espnAPI:scrape' do
   it 'should create the conferences and teams' do
     rake = Rake::Application.new
     Rake.application = rake
-    Rake.application.rake_require('lib/tasks/espn', [Rails.root.to_s])
+    Rake.application.rake_require('lib/tasks/espnAPI', [Rails.root.to_s])
 
     Rake::Task.define_task(:environment)
-    task = rake['espn:scrape']
+    task = rake['espnAPI:scrape']
 
     leagues = [double(:leagues => [{:groups => [{:groups => [double(:shortName => 'a', :groupId => 3)]}]}])]
     client = double(:sports => leagues)

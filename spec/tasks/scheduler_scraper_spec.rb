@@ -6,6 +6,7 @@ include EspnScraperHelper
 describe EspnScraperHelper do
   describe '.get_teams' do
     describe 'scrape ESPN and populate temp_teams with all teams and web extensions' do
+=begin
       EspnScraperHelper.get_teams
 
       illinois = TempTeam.find_by! name: 'Illinois'
@@ -30,14 +31,16 @@ describe EspnScraperHelper do
 
       it 'all teams should have a webExt' do
         assert(TempTeam.where(webExt: nil).count == 0)
-      end   
+      end
+=end   
     end
   end
 #number of games for illinois 29
 #one game for illinois (all stats)
   describe '.get_teams' do
     describe 'scrape ESPN and populate temp_teams with all teams and web extensions' do
-      EspnScraperHelper.get_team_schedule(TempTeam.find_by! name: 'Illinois')
+=begin    
+  EspnScraperHelper.get_team_schedule(TempTeam.find_by! name: 'Illinois')
       it 'schedules is not empty' do
         assert(Schedule.all != nil)
       end
@@ -65,6 +68,7 @@ describe EspnScraperHelper do
         assert(game.teamScore == 80)
         assert(game.oppScore == 63)
       end
+=end
     end
   end
 end

@@ -1,6 +1,6 @@
 require 'espn'
 
-namespace :espn do
+namespace :espnAPI do
   desc 'Flush conference and team data from the database and pull in new teams'
   task :scrape => :environment do
     Conference.delete_all
