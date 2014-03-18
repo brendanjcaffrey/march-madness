@@ -5,14 +5,18 @@ include EspnScraperHelper
 
 describe EspnScraperHelper do
 
+  # constant time to sleep for requests
   sleepTime = 4.0
 
+  # Tests to make sure get_confs() is working correctly
+  # get_confs() should return conferences with names, webExt and logos
   describe '.get_confs()' do
     describe 'scrape ESPN and populate Conferences' do
 
       bigTen = nil
       acc = nil     
 
+      # Initialization
       before(:all) do
         Conference.delete_all
         Team.delete_all
@@ -24,6 +28,7 @@ describe EspnScraperHelper do
         acc = Conference.find_by! name: 'ACC'
       end
 
+      # Tests
       it 'Conference should contain 33 entries' do
         assert(Conference.all.count == 33)
       end    
@@ -57,6 +62,8 @@ describe EspnScraperHelper do
     end
   end
 
+  # Tests to make sure get_teams_from_conf(conf) is working correctly
+  # get_confs() should return teams with names, webExt, etc
   describe '.get_teams_from_conf(conf)' do
     describe 'scrape ESPN and populate Teams from the given conference' do
 
@@ -65,6 +72,7 @@ describe EspnScraperHelper do
       illinois = nil
       duke = nil
 
+      # Initialization
       before(:all) do
         Conference.delete_all
         Team.delete_all
@@ -82,6 +90,7 @@ describe EspnScraperHelper do
         duke = Team.find_by! name: 'Duke'
       end
   
+      # Tests
       it 'all teams should have a name' do
         assert(Team.where(name: nil).count == 0)
       end
@@ -115,9 +124,12 @@ describe EspnScraperHelper do
     end
   end
 
+  # Tests to make sure get_team_scoring_stats(conf) is working correctly
+  # get_confs() should return teams with points, shooting averages
   describe '.get_team_scoring_stats(conf)' do
     describe 'scrape ESPN and update Teams with scoring stats' do
 
+      # Initialization
       before(:all) do
         Conference.delete_all
         Team.delete_all
@@ -132,6 +144,7 @@ describe EspnScraperHelper do
         sleep sleepTime
       end
 
+      # Tests
       it 'all teams should have points' do
         assert(Team.where(points: nil).count == 0)
       end
@@ -160,9 +173,12 @@ describe EspnScraperHelper do
     end
   end
 
+  # Tests to make sure get_team_adv_scoring_stats(conf) is working correctly
+  # get_confs() should return teams with twoPer, pps, adjFG
   describe 'get_team_adv_scoring_stats(conf)' do
     describe 'scrape ESPN and update Teams with advanced scoring stats' do
 
+      # Initialization
       before(:all) do
         Conference.delete_all
         Team.delete_all
@@ -177,6 +193,7 @@ describe EspnScraperHelper do
         sleep sleepTime
       end
 
+      # Tests
       it 'all teams should have a two point percentage' do
         assert(Team.where(twoPer: nil).count == 0)
       end
@@ -198,9 +215,12 @@ describe EspnScraperHelper do
     end
   end
 
+  # Tests to make sure get_team_assists_stats(conf) is working correctly
+  # get_confs() should return teams with assists, turnovers, etc
   describe 'get_team_assists_stats(conf)' do
     describe 'scrape ESPN and update Teams with assist stats' do
 
+      # Initialization
       before(:all) do
         Conference.delete_all
         Team.delete_all
@@ -215,6 +235,7 @@ describe EspnScraperHelper do
         sleep sleepTime
       end
 
+      # Tests
       it 'all teams should have a assists per game' do
         assert(Team.where(assist: nil).count == 0)
       end
@@ -227,9 +248,12 @@ describe EspnScraperHelper do
     end
   end
 
+  # Tests to make sure get_team_rebounds_stats(conf) is working correctly
+  # get_confs() should return teams with off/def/total rebounds
   describe 'get_team_rebounds_stats(conf)' do
     describe 'scrape ESPN and update Teams with rebounding stats' do
 
+      # Initialization
       before(:all) do
         Conference.delete_all
         Team.delete_all
@@ -244,6 +268,7 @@ describe EspnScraperHelper do
         sleep sleepTime
       end
 
+      # Tests
       it 'all teams should have a offensive rebounds per game' do
         assert(Team.where(offReb: nil).count == 0)
       end
@@ -256,9 +281,12 @@ describe EspnScraperHelper do
     end
   end
 
+  # Tests to make sure get_team_steals_stats(conf) is working correctly
+  # get_confs() should return teams with steals, fouls, etc
   describe 'get_team_steals_stats(conf)' do
     describe 'scrape ESPN and update Teams with steal stats' do
 
+      # Initialization
       before(:all) do
         Conference.delete_all
         Team.delete_all
@@ -273,6 +301,7 @@ describe EspnScraperHelper do
         sleep sleepTime
       end
 
+      # Tests
       it 'all teams should have a steals per game' do
         assert(Team.where(steals: nil).count == 0)
       end
@@ -288,9 +317,12 @@ describe EspnScraperHelper do
     end
   end
 
+  # Tests to make sure get_team_blocks_stats(conf) is working correctly
+  # get_confs() should return teams with blocks
   describe 'get_team_blocks_stats(conf)' do
     describe 'scrape ESPN and update Teams with block stats' do
 
+      # Initialization
       before(:all) do
         Conference.delete_all
         Team.delete_all
@@ -305,6 +337,7 @@ describe EspnScraperHelper do
         sleep sleepTime
       end
 
+      # Tests
       it 'all teams should have a blocks per game' do
         assert(Team.where(blocks: nil).count == 0)
       end
@@ -314,11 +347,14 @@ describe EspnScraperHelper do
     end
   end
 
+  # Tests to make sure get_game_stats(game) is working correctly
+  # get_confs() should return game with valid game data
   describe 'get_game_stats(game)' do
     describe 'scrape ESPN and update a game with given stats for that game' do
 
       game = nil
-
+   
+      # Initialization
       before(:all) do
         Conference.delete_all
         Team.delete_all
@@ -329,6 +365,7 @@ describe EspnScraperHelper do
         sleep sleepTime
       end
 
+      # Tests
       it 'games should contain home team points' do
         assert(Game.where(homePoints: nil).count == 0)
       end
