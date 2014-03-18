@@ -41,7 +41,6 @@ module EspnScraperHelper
       webExt = doc.at_xpath('//a[text()="'+name+'"]')['href']
       logo = li.at_css("img")['src']
       conf = Conference.create(name: name, webExt: webExt, logo: logo)   
-      get_teams_from_conf(conf)
     }
   end
 

@@ -4,17 +4,22 @@ require "#{Rails.root}/app/helpers/espn_scraper_helper"
 include EspnScraperHelper
 
 describe EspnScraperHelper do
-
-  before(:all) do
-      Conference.delete_all
-      Team.delete_all
-      Game.delete_all
-
-      EspnScraperHelper.get_confs()
-  end
-
+=begin
   describe '.get_confs()' do
     describe 'scrape ESPN and populate Conferences' do
+
+      bigTen = nil
+      acc = nil     
+
+      before(:all) do
+        Conference.delete_all
+        Team.delete_all
+        Game.delete_all
+
+        EspnScraperHelper.get_confs()
+        bigTen = Conference.find_by! name: 'Big Ten'
+        acc = Conference.find_by! name: 'ACC'
+      end
 
       it 'Conference should contain 33 entries' do
         assert(Conference.all.count == 33)
@@ -28,8 +33,6 @@ describe EspnScraperHelper do
       it 'all conferences should have a logo' do
         assert(Conference.where(logo: nil).count == 0)
       end
-
-      bigTen = Conference.find_by! name: 'Big Ten'
       it 'conference should contain "Big Ten"' do
         assert(bigTen != nil)
       end 
@@ -39,8 +42,6 @@ describe EspnScraperHelper do
       it '"Big Ten" should have the correct logo' do
         assert(bigTen.logo = 'http://a.espncdn.com/i/teamlogos/ncaa_conf/sml/trans/big_ten.gif')
       end 
-
-      acc = Conference.find_by! name: 'ACC'
       it 'conference should contain "ACC"' do
         assert(acc != nil)
       end 
@@ -55,10 +56,25 @@ describe EspnScraperHelper do
 
   describe '.get_teams_from_conf(conf)' do
     describe 'scrape ESPN and populate Teams from the given conference' do
-      acc = Conference.find_by! name: 'ACC'
-      get_teams_from_conf(acc)
-      bigTen = Conference.find_by! name: 'Big Ten'
-      get_teams_from_conf(bigTen)
+
+      bigTen = nil
+      acc = nil     
+      illinois = nil
+      duke = nil
+
+      before(:all) do
+        Conference.delete_all
+        Team.delete_all
+        Game.delete_all
+
+        EspnScraperHelper.get_confs()
+        bigTen = Conference.find_by! name: 'Big Ten'
+        acc = Conference.find_by! name: 'ACC'
+        get_teams_from_conf(bigTen)
+        get_teams_from_conf(acc)
+        illinois = Team.find_by! name: 'Illinois'
+        duke = Team.find_by! name: 'Duke'
+      end
   
       it 'all teams should have a name' do
         assert(Team.where(name: nil).count == 0)
@@ -75,21 +91,15 @@ describe EspnScraperHelper do
       it 'all teams should have losses' do
         assert(Team.where(losses: nil).count == 0)
       end
-      it 'all teams should have a conference' do
-        assert(Team.where(conference: nil).count == 0)
-      end
-
       it 'Big 10 should contain 12 entries and ACC should contain 15 entries' do
         assert(Team.all.count == 27)
       end  
-      illinois = Team.find_by! name: 'Illinois'
       it 'Teams should contain "Illinois"' do
         assert(illinois != nil)
       end 
       it '"Illinois" should have the correct web extension' do
         assert(illinois.webExt = '356/illinois-fighting-illini')
       end 
-      duke = Team.find_by! name: 'Duke'
       it 'temp_teams should contain "Duke"' do
         assert(duke != nil)
       end 
@@ -98,40 +108,67 @@ describe EspnScraperHelper do
       end
     end
   end
+=end
+  describe '.get_team_scoring_stats(conf)' do
+    describe 'scrape ESPN and populate Teams from the given conference' do
 
+      before(:all) do
+        Conference.delete_all
+        Team.delete_all
+        Game.delete_all
 
+        EspnScraperHelper.get_confs()
+        bigTen = Conference.find_by! name: 'Big Ten'
+        get_teams_from_conf(bigTen)
+        get_team_scoring_stats(bigTen)
+      end
+
+      it 'all teams should have points' do
+        assert(Team.where(points: nil).count == 0)
+      end
+      it 'all teams points is above 0' do
+        assert(Team.where('points < 0').count == 0)
+      end
+      it 'all teams should have a field goal percentage' do
+        assert(Team.where(fgPer: nil).count == 0)
+      end
+      it 'all teams field goal percentage is between 0 and 1' do
+        assert(Team.where('fgPer < 0').count == 0 && Team.where('fgPer > 1').count == 0)
+      end
+      it 'all teams should have a three point percentage' do
+        assert(Team.where(threePer: nil).count == 0)
+      end
+      it 'all teams three point percentage is between 0 and 1' do
+        assert(Team.where('threePer < 0').count == 0 && Team.where('threePer > 1').count == 0)
+      end
+      it 'all teams should have free throw percentage' do
+        assert(Team.where(ftPer: nil).count == 0)
+      end
+      it 'all teams free throw percentage is between 0 and 1' do
+        assert(Team.where('ftPer < 0').count == 0 && Team.where('ftPer > 1').count == 0)
+      end
+
+    end
+  end
+
+  describe 'get_team_adv_scoring_stats(conf)' do
+    describe 'scrape ESPN and populate Teams from the given conference' do
+
+      before(:all) do
+        Conference.delete_all
+        Team.delete_all
+        Game.delete_all
+
+        EspnScraperHelper.get_confs()
+        bigTen = Conference.find_by! name: 'Big Ten'
+        get_teams_from_conf(bigTen)
+        get_team_adv_scoring_stats(bigTen)
+      end
+
+    end
+  end
 =begin
-  describe '.get_teams' do
-    describe 'scrape ESPN and populate temp_teams with all teams and web extensions' do
-
-      EspnScraperHelper.get_teams
-
-      illinois = TempTeam.find_by! name: 'Illinois'
-      it 'temp_teams should contain "Illinois"' do
-        assert(illinois != nil)
-      end 
-      it '"Illinois" should have the correct web extension' do
-        assert(illinois.webExt = '356/illinois-fighting-illini')
-      end 
-
-      duke = TempTeam.find_by! name: 'Duke'
-      it 'temp_teams should contain "Duke"' do
-        assert(duke != nil)
-      end 
-      it '"Duke" should have the correct web extension' do
-        assert(duke.webExt = '150/duke-blue-devils')
-      end
-
-      it 'temp_teams should contain 351 teams' do
-        assert(TempTeam.all.count == 351)
-      end
-
-      it 'all teams should have a webExt' do
-        assert(TempTeam.where(webExt: nil).count == 0)
-      end
-   
-    end
-  end
+ 
 #number of games for illinois 29
 #one game for illinois (all stats)
   describe '.get_teams' do
