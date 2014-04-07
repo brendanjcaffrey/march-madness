@@ -6,12 +6,12 @@ class ServerConnection
 		@client = server.accept
 	end
 
-	def send(message)
-		@client.puts(message + "\r\n\r\n");
+	def send(team1,team2)
+		@client.puts(team1 + ":" + team2 + "\r\n");
 	end
 
 	def get
-		@client.gets
+		@client.gets.gsub(/.+:|\r\n+/,'')
 	end
 end
 
