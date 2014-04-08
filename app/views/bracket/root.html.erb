@@ -1,0 +1,83 @@
+<div class="container">
+  <div class="page-header">
+    <h1>March Madness Bracket</h1>
+  </div>
+<% @groups.each do |group, teams| %>
+  <div class="tournament16-wrap">
+    <h2><%= group %></h2>
+    <div class="round5-top winner5">Winner</div>
+    <div class="round4-topwrap">
+      <div class="round4-top">Top Winner</div>
+      <div class="round3-topwrap">
+        <div class="round3-top">1/8 winner</div>
+        <div class="round2-topwrap">
+          <div class="round2-top">1-16 winner</div>
+          <div class="round1-top">1. <%= team_tag(teams[1]) %></div>
+          <div class="round1-bottom">16. <%= team_tag(teams[16]) %></div>
+        </div>
+        <div class="round2-bottomwrap">
+          <div class="round2-bottom">8-9 winner</div>
+          <div class="round1-top">8. <%= team_tag(teams[8]) %></div>
+          <div class="round1-bottom">9. <%= team_tag(teams[9]) %></div>
+        </div>
+      </div>
+      <div class="round3-bottomwrap">
+        <div class="round3-bottom">4/5 winner</div>
+        <div class="round2-topwrap">
+          <div class="round2-top">5-12 winner</div>
+          <div class="round1-top">5. <%= team_tag(teams[5]) %></div>
+          <div class="round1-bottom">12. <%= team_tag(teams[12]) %></div>
+        </div>
+        <div class="round2-bottomwrap">
+          <div class="round2-bottom">4-13 winner</div>
+          <div class="round1-top">4. <%= team_tag(teams[4]) %></div>
+          <div class="round1-bottom">13. <%= team_tag(teams[13]) %></div>
+        </div>
+      </div>
+    </div>
+    <div class="round4-bottomwrap">
+      <div class="round4-bottom">Bottom Winner</div>
+      <div class="round3-topwrap">
+        <div class="round3-top">2/7 winner</div>
+        <div class="round2-topwrap">
+          <div class="round2-top">6-11 winner</div>
+          <div class="round1-top">6. <%= team_tag(teams[6]) %></div>
+          <div class="round1-bottom">11. <%= team_tag(teams[11]) %></div>
+        </div>
+        <div class="round2-bottomwrap">
+          <div class="round2-bottom">3-14 winner</div>
+          <div class="round1-top">3. <%= team_tag(teams[3]) %></div>
+          <div class="round1-bottom">14. <%= team_tag(teams[14]) %></div>
+        </div>
+      </div>
+      <div class="round3-bottomwrap">
+        <div class="round3-bottom">3/6 winner</div>
+        <div class="round2-topwrap">
+          <div class="round2-top">7-10 winner</div>
+          <div class="round1-top">7. <%= team_tag(teams[7]) %></div>
+          <div class="round1-bottom">10. <%= team_tag(teams[10]) %></div>
+        </div>
+        <div class="round2-bottomwrap">
+          <div class="round2-bottom">2-15 winner</div>
+          <div class="round1-top">2. <%= team_tag(teams[2]) %></div>
+          <div class="round1-bottom">15. <%= team_tag(teams[15]) %></div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+  <div class="tournament4-wrap">
+    <h2>Final Four</h2>
+    <div class="round3-top winner3">National Champion</div>
+    <div class="round2-topwrap">
+      <div class="round2-top">S/E Winner</div>
+      <div class="round1-top">South Champion</div>
+      <div class="round1-bottom">East Champion</div>
+    </div>
+    <div class="round2-bottomwrap">
+      <div class="round2-bottom">W/MW Winner</div>
+      <div class="round1-top">West Winner</div>
+      <div class="round1-bottom">Midwest Winner</div>
+    </div>
+  </div>
+</div>
