@@ -9,6 +9,18 @@ class MainController < ApplicationController
   end
 
   def predict
-    render json: {team1: params['team1'], team2: params['team2'], winner: '0'}
+    if Rails.env.production?
+      team1 = Team.find_by_id(params['team1'])
+      team2 = Team.find_by_id(params['team2'])
+      if team1 == nil or team2 == nil
+        render :nothing
+      else
+        $backend.sendTeams(team1.name, team2.name)
+        winner = $backend.getWinner
+        render json: {team1: params['team1'], team2: params['team2'], winner: winner == team1.name ? '1' : '2'}
+      end
+    else
+      render json: {team1: params['team1'], team2: params['team2'], winner: '1'}
+    end
   end
 end

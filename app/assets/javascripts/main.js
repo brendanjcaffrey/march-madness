@@ -28,7 +28,7 @@ $( document ).ready(function() {
       url: '/predict/' + team1 + '/' + team2
     }).done(function(data) {
       winner_text = 'Predicted winner: '
-      if (data.winner == '0') {
+      if (data.winner == '1') {
         winner_text += team1_name;
       } else {
         winner_text += team2_name;
