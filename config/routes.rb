@@ -2,6 +2,7 @@ MarchMadness::Application.routes.draw do
   root 'main#root'
   get 'predict/:team1/:team2' => 'main#predict'
   get 'bracket' => 'bracket#root'
+  get 'rank' => 'rank#root'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
