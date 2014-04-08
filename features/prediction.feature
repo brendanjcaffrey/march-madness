@@ -1,8 +1,7 @@
 @javascript
 Feature: Game prediction
   Select from a list of teams to pick two teams to match up. It sends an AJAX
-  request to the server which talks to the prediction engine and predicts the
-  results of a game.
+  request to the server which predicts the results of a game.
 
   Background:
     Given the test teams are loaded
