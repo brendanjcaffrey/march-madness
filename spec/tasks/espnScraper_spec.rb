@@ -11,7 +11,7 @@ describe EspnScraperHelper do
     describe 'scrape ESPN and populate Conferences' do
 
       bigTen = nil
-      acc = nil     
+      acc = nil    
 
       # Initialization
       before(:all) do
@@ -26,7 +26,7 @@ describe EspnScraperHelper do
 
       # Tests
       it 'Conference should contain 33 entries' do
-        assert(Conference.all.count == 33)
+        assert(Conference.all.count  == 34)
       end    
       it 'all conferences should have a name' do
         assert(Conference.where(name: nil).count == 0)
@@ -123,16 +123,14 @@ describe EspnScraperHelper do
     describe 'scrape ESPN and update Teams with scoring stats' do
 
       # Initialization
-      before(:all) do
-        Conference.delete_all
-        Team.delete_all
-        Game.delete_all
-
-        get_confs()
-        bigTen = Conference.find_by! name: 'Big Ten'
-        get_teams_from_conf(bigTen)
-        get_team_scoring_stats(bigTen)
-      end
+      Conference.delete_all
+      Team.delete_all
+      Game.delete_all
+      get_confs()
+      bigTen = Conference.find_by! name: 'Big Ten'
+      get_teams_from_conf(bigTen)
+      get_team_scoring_stats(bigTen)
+      sleep 1.0
 
       # Tests
       it 'all teams should have points' do
@@ -169,16 +167,15 @@ describe EspnScraperHelper do
     describe 'scrape ESPN and update Teams with advanced scoring stats' do
 
       # Initialization
-      before(:all) do
-        Conference.delete_all
-        Team.delete_all
-        Game.delete_all
+      Conference.delete_all
+      Team.delete_all
+      Game.delete_all
 
-        get_confs()
-        bigTen = Conference.find_by! name: 'Big Ten'
-        get_teams_from_conf(bigTen)
-        get_team_adv_scoring_stats(bigTen)
-      end
+      get_confs()
+      bigTen = Conference.find_by! name: 'Big Ten'
+      get_teams_from_conf(bigTen)
+      get_team_adv_scoring_stats(bigTen)
+      sleep 1.0
 
       # Tests
       it 'all teams should have a two point percentage' do
@@ -208,16 +205,14 @@ describe EspnScraperHelper do
     describe 'scrape ESPN and update Teams with assist stats' do
 
       # Initialization
-      before(:all) do
-        Conference.delete_all
-        Team.delete_all
-        Game.delete_all
-
-        get_confs()
-        bigTen = Conference.find_by! name: 'Big Ten'
-        get_teams_from_conf(bigTen)
-        get_team_assists_stats(bigTen)
-      end
+      Conference.delete_all
+      Team.delete_all
+      Game.delete_all
+      get_confs()
+      bigTen = Conference.find_by! name: 'Big Ten'
+      get_teams_from_conf(bigTen)
+      get_team_assists_stats(bigTen)
+      sleep 1.0
 
       # Tests
       it 'all teams should have a assists per game' do
@@ -238,16 +233,14 @@ describe EspnScraperHelper do
     describe 'scrape ESPN and update Teams with rebounding stats' do
 
       # Initialization
-      before(:all) do
-        Conference.delete_all
-        Team.delete_all
-        Game.delete_all
-
-        get_confs()
-        bigTen = Conference.find_by! name: 'Big Ten'
-        get_teams_from_conf(bigTen)
-        get_team_rebounds_stats(bigTen)
-      end
+      Conference.delete_all
+      Team.delete_all
+      Game.delete_all
+      get_confs()
+      bigTen = Conference.find_by! name: 'Big Ten'
+      get_teams_from_conf(bigTen)
+      get_team_rebounds_stats(bigTen)
+      sleep 1.0
 
       # Tests
       it 'all teams should have a offensive rebounds per game' do
@@ -268,16 +261,14 @@ describe EspnScraperHelper do
     describe 'scrape ESPN and update Teams with steal stats' do
 
       # Initialization
-      before(:all) do
-        Conference.delete_all
-        Team.delete_all
-        Game.delete_all
-
-        get_confs()
-        bigTen = Conference.find_by! name: 'Big Ten'
-        get_teams_from_conf(bigTen)
-        get_team_steals_stats(bigTen)
-      end
+      Conference.delete_all
+      Team.delete_all
+      Game.delete_all
+      get_confs()
+      bigTen = Conference.find_by! name: 'Big Ten'
+      get_teams_from_conf(bigTen)
+      get_team_steals_stats(bigTen)
+      sleep 1.0
 
       # Tests
       it 'all teams should have a steals per game' do
@@ -301,16 +292,14 @@ describe EspnScraperHelper do
     describe 'scrape ESPN and update Teams with block stats' do
 
       # Initialization
-      before(:all) do
-        Conference.delete_all
-        Team.delete_all
-        Game.delete_all
-
-        get_confs()
-        bigTen = Conference.find_by! name: 'Big Ten'
-        get_teams_from_conf(bigTen)
-        get_team_blocks_stats(bigTen)
-      end
+      Conference.delete_all
+      Team.delete_all
+      Game.delete_all
+      get_confs()
+      bigTen = Conference.find_by! name: 'Big Ten'
+      get_teams_from_conf(bigTen)
+      get_team_blocks_stats(bigTen)
+      sleep 2.0
 
       # Tests
       it 'all teams should have a blocks per game' do
@@ -327,20 +316,18 @@ describe EspnScraperHelper do
     describe 'scrape ESPN and update Teams with logo' do
 
       # Initialization
-      before(:all) do
-        Conference.delete_all
-        Team.delete_all
-        Game.delete_all
+      Conference.delete_all
+      Team.delete_all
+      Game.delete_all
 
-        get_confs()
-        bigTen = Conference.find_by! name: 'Big Ten'
-        get_teams_from_conf(bigTen)
-        Team.find_each do |team|
-          get_team_logo(team)
-        end
-        
-        illinois = Team.find_by! name: 'Illinois'
+      get_confs()
+      bigTen = Conference.find_by! name: 'Big Ten'
+      get_teams_from_conf(bigTen)
+      Team.find_each do |team|
+        get_team_logo(team)
       end
+      sleep 1.0
+      illinois = Team.find_by! name: 'Illinois'
 
       # Tests
       it 'all teams should have a logo' do
@@ -368,6 +355,7 @@ describe EspnScraperHelper do
         game = Game.create(gameID: 400510014)
         get_game_stats(game)
       end
+      sleep 1.0
 
       # Tests
       it 'games should contain home team points' do

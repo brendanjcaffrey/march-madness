@@ -5,6 +5,10 @@ class CreateGames < ActiveRecord::Migration
       t.string :date
       t.string :homeTeam
       t.string :awayTeam
+      t.float :homeOvrWL
+      t.float :homeHomeWL
+      t.float :awayOvrWL
+      t.float :awayAwayWL
       t.float :homePoints
       t.float :homefgm
       t.float :homefga
