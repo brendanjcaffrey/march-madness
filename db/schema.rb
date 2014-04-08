@@ -15,6 +15,8 @@ ActiveRecord::Schema.define(version: 20140316181731) do
 
   create_table "conferences", force: true do |t|
     t.string   "name"
+    t.string   "webExt"
+    t.string   "logo"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -82,34 +84,53 @@ ActiveRecord::Schema.define(version: 20140316181731) do
     t.datetime "updated_at"
   end
 
-  create_table "schedules", force: true do |t|
-    t.string   "date"
-    t.string   "location"
-    t.string   "opponent"
-    t.boolean  "isWinner"
-    t.integer  "teamScore"
-    t.integer  "oppScore"
-    t.integer  "temp_team_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "schedules", ["temp_team_id"], name: "index_schedules_on_temp_team_id"
-
   create_table "teams", force: true do |t|
     t.string   "name"
+    t.integer  "rank"
+    t.string   "webExt"
+    t.string   "logo"
+    t.integer  "conferenceWins"
+    t.integer  "conferenceLosses"
+    t.integer  "wins"
+    t.integer  "losses"
+    t.integer  "homeWins"
+    t.integer  "homeLosses"
+    t.integer  "awayWins"
+    t.integer  "awayLosses"
+    t.float    "bpi"
+    t.float    "points"
+    t.float    "defPoints"
+    t.float    "fgm"
+    t.float    "fga"
+    t.float    "fgPer"
+    t.float    "twoMade"
+    t.float    "twoAtt"
+    t.float    "twoPer"
+    t.float    "threeMade"
+    t.float    "threeAtt"
+    t.float    "threePer"
+    t.float    "ftm"
+    t.float    "fta"
+    t.float    "ftPer"
+    t.float    "offReb"
+    t.float    "defReb"
+    t.float    "totalReb"
+    t.float    "pps"
+    t.float    "adjFG"
+    t.float    "assist"
+    t.float    "to"
+    t.float    "apto"
+    t.float    "steals"
+    t.float    "fouls"
+    t.float    "stealPerTO"
+    t.float    "stealPerFoul"
+    t.float    "blocks"
+    t.float    "blocksPerFoul"
     t.integer  "conference_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "teams", ["conference_id"], name: "index_teams_on_conference_id"
-
-  create_table "temp_teams", force: true do |t|
-    t.string   "name"
-    t.string   "webExt"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
 end

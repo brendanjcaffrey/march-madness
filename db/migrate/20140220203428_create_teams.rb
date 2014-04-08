@@ -4,11 +4,17 @@ class CreateTeams < ActiveRecord::Migration
       t.string :name
       t.integer :rank
       t.string :webExt
+      t.string :logo
       t.integer :conferenceWins
       t.integer :conferenceLosses
       t.integer :wins
       t.integer :losses
+      t.integer :homeWins
+      t.integer :homeLosses
+      t.integer :awayWins
+      t.integer :awayLosses
       t.float :points
+      t.float :defPoints
       t.float :fgm
       t.float :fga
       t.float :fgPer
