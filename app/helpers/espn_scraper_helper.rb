@@ -72,7 +72,9 @@ module EspnScraperHelper
       logo = li.at_css("img")['src']
 
       # Creates Database Entry
-      conf = Conference.create(name: name, webExt: webExt, logo: logo)   
+      if(name != "NCAA Tournament")
+        conf = Conference.create(name: name, webExt: webExt, logo: logo)   
+      end
     }
   end
 
@@ -91,7 +93,7 @@ module EspnScraperHelper
     rows.each  do |row|
       col = row.css("td")
       # Most valid conferences have 4 columns
-      if(col.count >2)
+      if(col.count > 2)
         # Gets name and rank combination, then parses for appropiate information
         nameRank = col[0].text.scan((/(#)*(\d+ )*(.*)/))
         name = nameRank[0][2]
@@ -129,7 +131,7 @@ module EspnScraperHelper
           # Creates Team Entry
           Team.create(name: name, rank: rank, webExt: webExt, wins: ovrW, losses: ovrL, conference: conf)
         end
-     end
+      end
     end
   end
 
