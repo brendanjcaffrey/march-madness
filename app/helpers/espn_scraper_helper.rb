@@ -89,7 +89,7 @@ module EspnScraperHelper
     rows.each  do |row|
       col = row.css("td")
       # Most valid conferences have 4 columns
-      if(col.count == 4)
+      if(col.count >2)
         # Gets name and rank combination, then parses for appropiate information
         nameRank = col[0].text.scan((/(#)*(\d+ )*(.*)/))
         name = nameRank[0][2]
@@ -104,42 +104,30 @@ module EspnScraperHelper
         webExt = webpage.scan(/(\d+).*/)[0][0]
         #webExt = webpage.scan(/\d+.*/)[0]
        
-        # Gets team conference win/loss
-        confWL = col[1].text.scan((/(\d+)-(\d+)/))
-        confW = confWL[0][0].to_i
-        confL = confWL[0][1].to_i
+        if(col.count == 4)
+          # Gets team conference win/loss
+          confWL = col[1].text.scan((/(\d+)-(\d+)/))
+          confW = confWL[0][0].to_i
+          confL = confWL[0][1].to_i
         
-        # Gets overall conference win/loss
-        ovrWL = col[3].text.scan((/(\d+)-(\d+)/))
-        ovrW = ovrWL[0][0].to_i
-        ovrL = ovrWL[0][1].to_i
+          # Gets overall conference win/loss
+          ovrWL = col[3].text.scan((/(\d+)-(\d+)/))
+          ovrW = ovrWL[0][0].to_i
+          ovrL = ovrWL[0][1].to_i
 
-        # Creates Team Entry
-        Team.create(name: name, rank: rank, webExt: webExt, conferenceWins: confW, conferenceLosses: confL, wins: ovrW, losses: ovrL, conference: conf)
-      # Independent (No conference) teams only have 3 columns
-      elsif(col.count == 3)
-        # Gets name and rank combination, then parses for appropiate information
-        nameRank = col[0].text.scan((/(#)*(\d+ )*(.*)/))
-        name = nameRank[0][2]
-        if(nameRank[0][1] != nil)
-          rank = nameRank[0][1]
-        else
-          rank = -1
+          # Creates Team Entry
+          Team.create(name: name, rank: rank, webExt: webExt, conferenceWins: confW, conferenceLosses: confL, wins: ovrW, losses: ovrL, conference: conf)
+        # Independent (No conference) teams only have 3 columns
+        elsif(col.count == 3)
+          # Gets overall conference win/loss
+          ovrWL = col[2].text.scan((/(\d+)-(\d+)/))
+          ovrW = ovrWL[0][0].to_i
+          ovrL = ovrWL[0][1].to_i
+
+          # Creates Team Entry
+          Team.create(name: name, rank: rank, webExt: webExt, wins: ovrW, losses: ovrL, conference: conf)
         end
-
-        # Gets team web extension
-        webpage = doc.at_xpath('//a[text()="'+name+'"]')['href']
-        #webExt = webpage.scan(/\d+.*/)[0]
-        webExt = webpage.scan(/(\d+).*/)[0][0]
-
-        # Gets overall conference win/loss
-        ovrWL = col[2].text.scan((/(\d+)-(\d+)/))
-        ovrW = ovrWL[0][0].to_i
-        ovrL = ovrWL[0][1].to_i
-
-        # Creates Team Entry
-        Team.create(name: name, rank: rank, webExt: webExt, wins: ovrW, losses: ovrL, conference: conf)
-      end
+     end
     end
   end
 
