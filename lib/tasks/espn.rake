@@ -7,8 +7,7 @@ include EspnScraperHelper
 namespace :espn do
   desc 'Create files for each teams most up to date statistics and games played'
   task :scrape => :environment do
-    EspnScraperHelper.get_teams()
-    EspnScraperHelper.get_games()
+    EspnScraperHelper.scrapeESPN()
   end
 end
 

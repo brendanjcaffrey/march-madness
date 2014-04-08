@@ -18,10 +18,11 @@ module EspnScraperHelper
   end
 
   # Wrapper function that gets all conferences and then gets all teams / team stats
-  def get_teams()
+  def scrapeESPN()
     # Delete databases
     Conference.delete_all
-    Team.delete_all
+    Team.delete_all 
+    Game.delete_all
 
     puts "Getting Conferences"
     # Gets all the Conferences
@@ -41,11 +42,12 @@ module EspnScraperHelper
       get_team_blocks_stats(conf)
     end
 
-    puts "Getting Team Logos"
+    puts "Getting Team Logos and Games"
     Team.find_each do |team|
       puts "--" + team.name
       get_team_logo(team)
-    end 
+      get_team_games(team)
+    end
   end
 
   # Scrapes ESPN college basketball conference page for all conferences and information about conference
@@ -319,16 +321,6 @@ module EspnScraperHelper
         team.update(blocks: blocks, blocksPerFoul: blocksPerFoul)
       end
     end 
-  end
-
-  # Wrapper function that loops through the teams and finds all games played
-  def get_games
-    Game.delete_all
-    puts "Getting Games"
-    Team.find_each do |team|
-      puts "--" + team.name
-      get_team_games(team)
-    end
   end
 
   # Gets all games for a specific team
