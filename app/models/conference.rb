@@ -1,3 +1,3 @@
 class Conference < ActiveRecord::Base
-  has_many :teams, dependent: :destroy, :order => 'name ASC'
+  has_many :teams, -> { order 'name ASC' }, dependent: :destroy
 end
