@@ -162,8 +162,7 @@ module EspnScraperHelper
 
   # Scrapes ESPN scoring page for a conference to get scoring data for teams in the conference
   def get_team_scoring_stats(conf)
-    doc = getHTML("http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{conf.webExt}/stat/scoring-per-game/") 
-
+    doc = getHTML("http://espn.go.com/mens-college-basketball/statistics/team/_/stat/scoring-per-game/seasontype/2/group/#{conf.webExt}")
     table = doc.xpath('//table[@class = "tablehead"]')
     rows = table.css('tr[@class != "colhead"]')
     rows.each  do |row|
@@ -201,8 +200,7 @@ module EspnScraperHelper
 
   # Scrapes ESPN scoring page for a conference to get advanced scoring data for teams in the conference
   def get_team_adv_scoring_stats(conf)
-    doc = getHTML("http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{conf.webExt}/stat/field-goals/")
-
+    doc = getHTML("http://espn.go.com/mens-college-basketball/statistics/team/_/stat/field-goals/seasontype/2/group/#{conf.webExt}")
     table = doc.xpath('//table[@class = "tablehead"]')
     rows = table.css('tr[@class != "colhead"]')
     rows.each  do |row|
@@ -222,8 +220,7 @@ module EspnScraperHelper
 
   # Scrapes ESPN scoring page for a conference to get assists data for teams in the conference
   def get_team_assists_stats(conf)
-    doc = getHTML("http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{conf.webExt}/stat/assists/")
-
+    doc = getHTML("http://espn.go.com/mens-college-basketball/statistics/team/_/stat/assists/seasontype/2/group/#{conf.webExt}")
     table = doc.xpath('//table[@class = "tablehead"]')
     rows = table.css('tr[@class != "colhead"]')
     rows.each  do |row|
@@ -243,8 +240,7 @@ module EspnScraperHelper
 
   # Scrapes ESPN scoring page for a conference to get rebounding data for teams in the conference
   def get_team_rebounds_stats(conf)
-    doc = getHTML( "http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{conf.webExt}/stat/rebounds/")
-
+    doc = getHTML("http://espn.go.com/mens-college-basketball/statistics/team/_/stat/rebounds/seasontype/2/group/#{conf.webExt}")
     table = doc.xpath('//table[@class = "tablehead"]')
     rows = table.css('tr[@class != "colhead"]')
     rows.each  do |row|
@@ -264,8 +260,7 @@ module EspnScraperHelper
 
   # Scrapes ESPN scoring page for a conference to get steals data for teams in the conference
   def get_team_steals_stats(conf)
-    doc = getHTML("http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{conf.webExt}/stat/steals/")
-
+    doc = getHTML("http://espn.go.com/mens-college-basketball/statistics/team/_/stat/steals/seasontype/2/group/#{conf.webExt}")
     table = doc.xpath('//table[@class = "tablehead"]')
     rows = table.css('tr[@class != "colhead"]')
     rows.each  do |row|
@@ -286,8 +281,7 @@ module EspnScraperHelper
 
   # Scrapes ESPN scoring page for a conference to get block data for teams in the conference
   def get_team_blocks_stats(conf)
-    doc = getHTML("http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{conf.webExt}/stat/blocks/")
-    
+    doc = getHTML("http://espn.go.com/mens-college-basketball/statistics/team/_/stat/blocks/seasontype/2/group/#{conf.webExt}")
     table = doc.xpath('//table[@class = "tablehead"]')
     rows = table.css('tr[@class != "colhead"]')
     rows.each  do |row|
@@ -346,8 +340,11 @@ module EspnScraperHelper
 
   # Gets specific stats for a given game
   def get_game_stats(game)
-    # Get the html
-    doc = getHMTL("http://espn.go.com/ncb/boxscore?gameId=#{game.gameID}")
+    #doc = getHMTL("http://espn.go.com/ncb/boxscore?gameId=#{game.gameID}")
+
+    agent = Mechanize.new
+    html = agent.get("http://espn.go.com/ncb/boxscore?gameId=#{game.gameID}").body
+    doc = Nokogiri::HTML(html)
 
     awayRecs = doc.xpath("//div[@class = 'team-info']").css("p")[0].text
     awayOvrRaw = awayRecs.scan(/(\d+)-(\d+),.*/)
