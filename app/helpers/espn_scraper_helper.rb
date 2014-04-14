@@ -4,17 +4,22 @@ require "nokogiri"
 # Helper functions for Scraping ESPN
 module EspnScraperHelper
 
+  # Gets the HTML for the given webpage
   # Randomizes the User Agent String and the Sleep for each page request.
   # Helps prevent 503 errors
-  def randomize_user_agent(agent)  
-    sleep Random.rand(30)
+  def getHTML(url)  
+    #sleep Random.rand(30)
 
+    agent = Mechanize.new
     numUA =  Mechanize::AGENT_ALIASES.count
     randomNumber = Random.rand(numUA)
     #These are mobile user agent strings, return different information
     if(!(randomNumber == 14 or randomNumber == 15 or randomNumber == 16))
       agent.user_agent_alias = Mechanize::AGENT_ALIASES.keys[randomNumber]
     end
+ 
+    html = agent.get(url).body
+    return  Nokogiri::HTML(html)
   end
 
   # Wrapper function that gets all conferences and then gets all teams / team stats
@@ -51,13 +56,9 @@ module EspnScraperHelper
   end
 
   # Scrapes ESPN college basketball conference page for all conferences and information about conference
+  # Helper function called in scrapeESPN
   def get_confs()
-    # Get the html
-    url = "http://espn.go.com/mens-college-basketball/conferences"
-    agent = Mechanize.new
-    #randomize_user_agent(agent)  
-    html = agent.get(url).body
-    doc = Nokogiri::HTML(html)
+    doc = getHTML("http://espn.go.com/mens-college-basketball/conferences")
  
     # Gets the list containing the information
     list = doc.xpath("//ul[@class='medium-logos']")
@@ -81,11 +82,7 @@ module EspnScraperHelper
   # Scrapes ESPN's specific conference page for all of the teams in the conference
   def get_teams_from_conf(conf)
     # Gets the html
-    url = "http://espn.com#{conf.webExt}"
-    agent = Mechanize.new
-    html = agent.get(url).body
-    #randomize_user_agent(agent)  
-    doc = Nokogiri::HTML(html)
+    doc = getHTML("http://espn.com#{conf.webExt}")
 
     # Gets the table with the information
     table = doc.xpath('//table[@class = "mod-data"]')
@@ -135,16 +132,40 @@ module EspnScraperHelper
     end
   end
 
+  def get_conference_standings(conf)
+    id = conf.webExt.scan(/(.*=)(\d+)/)
+    doc = getHTML("http://espn.go.com/mens-college-basketball/conferences/standings/_/id/#{id[0][1]}")
+  
+    table = doc.xpath('//table[@class = "tablehead"]')[1]
+    rows = table.css('tr[@class != "colhead"]')
+    rows.each  do |row|
+      col = row.css('td')
+      if(col.count == 7)
+        name = col[0].text
+
+        home = col[3].text.scan((/(\d+)-(\d+)/))
+        homeWin = home[0][0].to_i
+        homeLoss = home[0][1].to_i
+
+        away = col[3].text.scan((/(\d+)-(\d+)/))
+        awayWin = away[0][0].to_i
+        awayLoss = away[0][1].to_i
+
+        pointsAllowed = col[6].text
+
+        # Updates specific teams entry with newly scraped data
+        team = Team.find_by! name: name 
+        team.update(homeWins: homeWin, homeLosses: homeLoss, awayWins:awayWin, awayLosses: awayLoss, defPoints: pointsAllowed)
+      end
+    end
+  end
+
   # Scrapes ESPN scoring page for a conference to get scoring data for teams in the conference
   def get_team_scoring_stats(conf)
     #refactor later
     # Gets the html
     id = conf.webExt.scan(/(.*=)(\d+)/)
-    url = "http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{id[0][1]}/stat/scoring-per-game/" 
-    agent = Mechanize.new
-    #randomize_user_agent(agent)
-    html = agent.get(url).body
-    doc = Nokogiri::HTML(html)
+    doc = getHTML("http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{id[0][1]}/stat/scoring-per-game/") 
 
     table = doc.xpath('//table[@class = "tablehead"]')
     rows = table.css('tr[@class != "colhead"]')
@@ -186,11 +207,7 @@ module EspnScraperHelper
     #refactor later
     # Gets the html
     id = conf.webExt.scan(/(.*=)(\d+)/)
-    url = "http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{id[0][1]}/stat/field-goals/"
-    agent = Mechanize.new
-    #randomize_user_agent(agent)  
-    html = agent.get(url).body
-    doc = Nokogiri::HTML(html)
+    doc = getHTML("http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{id[0][1]}/stat/field-goals/")
 
     table = doc.xpath('//table[@class = "tablehead"]')
     rows = table.css('tr[@class != "colhead"]')
@@ -214,12 +231,7 @@ module EspnScraperHelper
     #refactor later
     # Gets the html
     id = conf.webExt.scan(/(.*=)(\d+)/)
-    url = "http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{id[0][1]}/stat/assists/"
-
-    agent = Mechanize.new
-    #randomize_user_agent(agent)  
-    html = agent.get(url).body
-    doc = Nokogiri::HTML(html)
+    doc = getHTML("http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{id[0][1]}/stat/assists/")
 
     table = doc.xpath('//table[@class = "tablehead"]')
     rows = table.css('tr[@class != "colhead"]')
@@ -243,12 +255,7 @@ module EspnScraperHelper
     #refactor later
     # Gets the html
     id = conf.webExt.scan(/(.*=)(\d+)/)
-    url = "http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{id[0][1]}/stat/rebounds/"
-
-    agent = Mechanize.new
-    #randomize_user_agent(agent)  
-    html = agent.get(url).body
-    doc = Nokogiri::HTML(html)
+    doc = getHTML( "http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{id[0][1]}/stat/rebounds/")
 
     table = doc.xpath('//table[@class = "tablehead"]')
     rows = table.css('tr[@class != "colhead"]')
@@ -272,12 +279,7 @@ module EspnScraperHelper
     #refactor later
     # Gets the html
     id = conf.webExt.scan(/(.*=)(\d+)/)
-    url = "http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{id[0][1]}/stat/steals/"
-
-    agent = Mechanize.new
-    #randomize_user_agent(agent)  
-    html = agent.get(url).body
-    doc = Nokogiri::HTML(html)
+    doc = getHTML("http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{id[0][1]}/stat/steals/")
 
     table = doc.xpath('//table[@class = "tablehead"]')
     rows = table.css('tr[@class != "colhead"]')
@@ -302,13 +304,8 @@ module EspnScraperHelper
     #refactor later
     # Gets the html
     id = conf.webExt.scan(/(.*=)(\d+)/)
-    url = "http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{id[0][1]}/stat/blocks/"
-
-    agent = Mechanize.new
-    #randomize_user_agent(agent)  
-    html = agent.get(url).body
-    doc = Nokogiri::HTML(html)
-
+    doc = getHTML("http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{id[0][1]}/stat/blocks/")
+    
     table = doc.xpath('//table[@class = "tablehead"]')
     rows = table.css('tr[@class != "colhead"]')
     rows.each  do |row|
@@ -328,11 +325,7 @@ module EspnScraperHelper
   # Gets all games for a specific team
   def get_team_games(team)
     # Set Up
-    url = "http://espn.go.com/mens-college-basketball/team/schedule/_/id/#{team.webExt}"
-    agent = Mechanize.new
-    #randomize_user_agent(agent)  
-    html = agent.get(url).body
-    doc = Nokogiri::HTML(html)
+    doc = getHTML("http://espn.go.com/mens-college-basketball/team/schedule/_/id/#{team.webExt}")
 
     table = doc.xpath('//table[@class = "tablehead"]')
     rows = table.css('tr')
@@ -372,11 +365,7 @@ module EspnScraperHelper
   # Gets specific stats for a given game
   def get_game_stats(game)
     # Get the html
-    url = "http://espn.go.com/ncb/boxscore?gameId=#{game.gameID}"
-    agent = Mechanize.new
-    #randomize_user_agent(agent)  
-    html = agent.get(url).body
-    doc = Nokogiri::HTML(html)
+    doc = getHMTL("http://espn.go.com/ncb/boxscore?gameId=#{game.gameID}")
 
     awayRecs = doc.xpath("//div[@class = 'team-info']").css("p")[0].text
     awayOvrRaw = awayRecs.scan(/(\d+)-(\d+),.*/)
@@ -468,69 +457,9 @@ module EspnScraperHelper
   end
   
   def get_team_logo(team) 
-    url = "http://espn.go.com/mens-college-basketball/team/_/id/#{team.webExt}"
-    agent = Mechanize.new
-    html = agent.get(url).body
-    doc = Nokogiri::HTML(html)
- 
+    doc = getHTML("http://espn.go.com/mens-college-basketball/team/_/id/#{team.webExt}") 
     logo = doc.xpath("//meta[@property='og:image']/@content").text
     team.update(logo: logo)
-  end
-
-# 
-#  def get_bpi_rankings
-#    url = "http://espn.go.com/mens-college-basketball/bpi"
-#    agent = Mechanize.new
-#    html = agent.get(url).body
-#    doc = Nokogiri::HTML(html)
-#  
-#    table = doc.xpath('//table[@class = "tablehead"]')
-#    rows = table.css('tr[@class != "colhead"]')
-#    rows.each  do |row|
-#      col = row.css('td')
-#      if(col.count == 13)
-#        name = col[1].text
-#        bpi = col[3].text
-#     
-#        # Gets team web extension
-#        webpage = doc.at_xpath('//a[text()="'+name+'"]')['href']
-#        webExt = webpage.scan(/\d+.*/)[0]
-# 
-#        team = Team.find_by! webExt: webExt 
-#        team.update(bpi: bpi)
-#      end
-#    end
-#  end
-
-  def get_conference_standings(conf)
-    id = conf.webExt.scan(/(.*=)(\d+)/)
-    url = "http://espn.go.com/mens-college-basketball/conferences/standings/_/id/#{id[0][1]}"
-    agent = Mechanize.new
-    html = agent.get(url).body
-    doc = Nokogiri::HTML(html)
-  
-    table = doc.xpath('//table[@class = "tablehead"]')[1]
-    rows = table.css('tr[@class != "colhead"]')
-    rows.each  do |row|
-      col = row.css('td')
-      if(col.count == 7)
-        name = col[0].text
-
-        home = col[3].text.scan((/(\d+)-(\d+)/))
-        homeWin = home[0][0].to_i
-        homeLoss = home[0][1].to_i
-
-        away = col[3].text.scan((/(\d+)-(\d+)/))
-        awayWin = away[0][0].to_i
-        awayLoss = away[0][1].to_i
-
-        pointsAllowed = col[6].text
-
-        # Updates specific teams entry with newly scraped data
-        team = Team.find_by! name: name 
-        team.update(homeWins: homeWin, homeLosses: homeLoss, awayWins:awayWin, awayLosses: awayLoss, defPoints: pointsAllowed)
-      end
-    end
   end
 
 end
