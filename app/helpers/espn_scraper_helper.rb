@@ -67,7 +67,8 @@ module EspnScraperHelper
       name = li.css("h5").text
 
       # Conference Web Extension
-      webExt = doc.at_xpath('//a[text()="'+name+'"]')['href']
+      webExtRaw = doc.at_xpath('//a[text()="'+name+'"]')['href']
+      webExt = webExtRaw.scan(/(.*=)(\d+)/)[0][1]
 
       # Conference Logo
       logo = li.at_css("img")['src']
@@ -82,7 +83,7 @@ module EspnScraperHelper
   # Scrapes ESPN's specific conference page for all of the teams in the conference
   def get_teams_from_conf(conf)
     # Gets the html
-    doc = getHTML("http://espn.com#{conf.webExt}")
+    doc = getHTML("http://espn.com/ncb/conference?confId=#{conf.webExt}")
 
     # Gets the table with the information
     table = doc.xpath('//table[@class = "mod-data"]')
@@ -133,8 +134,7 @@ module EspnScraperHelper
   end
 
   def get_conference_standings(conf)
-    id = conf.webExt.scan(/(.*=)(\d+)/)
-    doc = getHTML("http://espn.go.com/mens-college-basketball/conferences/standings/_/id/#{id[0][1]}")
+    doc = getHTML("http://espn.go.com/mens-college-basketball/conferences/standings/_/id/#{conf.webExt}")
   
     table = doc.xpath('//table[@class = "tablehead"]')[1]
     rows = table.css('tr[@class != "colhead"]')
@@ -162,10 +162,7 @@ module EspnScraperHelper
 
   # Scrapes ESPN scoring page for a conference to get scoring data for teams in the conference
   def get_team_scoring_stats(conf)
-    #refactor later
-    # Gets the html
-    id = conf.webExt.scan(/(.*=)(\d+)/)
-    doc = getHTML("http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{id[0][1]}/stat/scoring-per-game/") 
+    doc = getHTML("http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{conf.webExt}/stat/scoring-per-game/") 
 
     table = doc.xpath('//table[@class = "tablehead"]')
     rows = table.css('tr[@class != "colhead"]')
@@ -204,10 +201,7 @@ module EspnScraperHelper
 
   # Scrapes ESPN scoring page for a conference to get advanced scoring data for teams in the conference
   def get_team_adv_scoring_stats(conf)
-    #refactor later
-    # Gets the html
-    id = conf.webExt.scan(/(.*=)(\d+)/)
-    doc = getHTML("http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{id[0][1]}/stat/field-goals/")
+    doc = getHTML("http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{conf.webExt}/stat/field-goals/")
 
     table = doc.xpath('//table[@class = "tablehead"]')
     rows = table.css('tr[@class != "colhead"]')
@@ -228,10 +222,7 @@ module EspnScraperHelper
 
   # Scrapes ESPN scoring page for a conference to get assists data for teams in the conference
   def get_team_assists_stats(conf)
-    #refactor later
-    # Gets the html
-    id = conf.webExt.scan(/(.*=)(\d+)/)
-    doc = getHTML("http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{id[0][1]}/stat/assists/")
+    doc = getHTML("http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{conf.webExt}/stat/assists/")
 
     table = doc.xpath('//table[@class = "tablehead"]')
     rows = table.css('tr[@class != "colhead"]')
@@ -252,10 +243,7 @@ module EspnScraperHelper
 
   # Scrapes ESPN scoring page for a conference to get rebounding data for teams in the conference
   def get_team_rebounds_stats(conf)
-    #refactor later
-    # Gets the html
-    id = conf.webExt.scan(/(.*=)(\d+)/)
-    doc = getHTML( "http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{id[0][1]}/stat/rebounds/")
+    doc = getHTML( "http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{conf.webExt}/stat/rebounds/")
 
     table = doc.xpath('//table[@class = "tablehead"]')
     rows = table.css('tr[@class != "colhead"]')
@@ -276,10 +264,7 @@ module EspnScraperHelper
 
   # Scrapes ESPN scoring page for a conference to get steals data for teams in the conference
   def get_team_steals_stats(conf)
-    #refactor later
-    # Gets the html
-    id = conf.webExt.scan(/(.*=)(\d+)/)
-    doc = getHTML("http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{id[0][1]}/stat/steals/")
+    doc = getHTML("http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{conf.webExt}/stat/steals/")
 
     table = doc.xpath('//table[@class = "tablehead"]')
     rows = table.css('tr[@class != "colhead"]')
@@ -301,10 +286,7 @@ module EspnScraperHelper
 
   # Scrapes ESPN scoring page for a conference to get block data for teams in the conference
   def get_team_blocks_stats(conf)
-    #refactor later
-    # Gets the html
-    id = conf.webExt.scan(/(.*=)(\d+)/)
-    doc = getHTML("http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{id[0][1]}/stat/blocks/")
+    doc = getHTML("http://espn.go.com/mens-college-basketball/conferences/statistics/team/_/id/#{conf.webExt}/stat/blocks/")
     
     table = doc.xpath('//table[@class = "tablehead"]')
     rows = table.css('tr[@class != "colhead"]')
