@@ -6,12 +6,12 @@ class ServerConnection
 		@client = server.accept
 	end
 
-	def sendTeams(team1,team2)
-		@client.puts(team1 + ":" + team2 + "\r\n");
+	def sendTeams(teams)
+		@client.puts(teams.join(":") + "\r\n");
 	end
 
-	def getWinner
-		@client.gets.gsub(/.+:|\r\n+/,'')
+	def getRanking
+		@client.gets.split(/:|\r\n/)
 	end
 end
 
