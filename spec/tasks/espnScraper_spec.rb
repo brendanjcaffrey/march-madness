@@ -317,7 +317,40 @@ describe EspnScraperHelper do
         assert(Team.where(logo: nil).count == 0)
       end
       it 'illinois has the correct logo' do
-        assert(illinois.logo == "http://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa/500/356.png?w=110&h=110&transparent=true")
+puts illinois.logo
+        assert(illinois.logo == "http://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa/500/356.png&w=110&h=110&transparent=true")
+      end
+    end
+  end
+
+  # Tests to make sure get_conference_standings(conf) is working correctly
+  # get_conference_standings() should return teams with wins, points allowed, etc
+  describe 'get_conference_standings(conf)' do
+    describe 'scrape ESPN and update Teams with conference standings' do
+
+      # Initialization
+      before(:all) do
+        Team.delete_all
+        bigTen = Conference.find_by! name: 'Big Ten'
+        get_teams_from_conf(bigTen)
+        get_conference_standings(bigTen)
+      end
+
+      # Tests
+      it 'all teams should have home wins' do
+        assert(Team.where(homeWins: nil).count == 0)
+      end
+      it 'all teams should have home losses' do
+        assert(Team.where(homeLosses: nil).count == 0)
+      end
+      it 'all teams should have away wins' do
+        assert(Team.where(awayWins: nil).count == 0)
+      end
+      it 'all teams should have away losses' do
+        assert(Team.where(awayLosses: nil).count == 0)
+      end
+      it 'all teams should have points allowed' do
+        assert(Team.where(defPoints: nil).count == 0)
       end
     end
   end

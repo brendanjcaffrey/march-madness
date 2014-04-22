@@ -133,6 +133,7 @@ module EspnScraperHelper
     end
   end
 
+  # Scrapes ESPN and gets conference records some defenseive stats
   def get_conference_standings(conf)
     doc = getHTML("http://espn.go.com/mens-college-basketball/conferences/standings/_/id/#{conf.webExt}")
   
@@ -340,8 +341,6 @@ module EspnScraperHelper
 
   # Gets specific stats for a given game
   def get_game_stats(game)
-    #doc = getHMTL("http://espn.go.com/ncb/boxscore?gameId=#{game.gameID}")
-
     agent = Mechanize.new
     html = agent.get("http://espn.go.com/ncb/boxscore?gameId=#{game.gameID}").body
     doc = Nokogiri::HTML(html)
