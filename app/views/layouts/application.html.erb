@@ -7,6 +7,29 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <div class="navbar">
+    <div class="navbar-inner">
+      <div class="container">
+
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+
+        <%= link_to 'March Madness', root_path, class: 'brand' %>
+
+        <div class="nav-collapse collapse navbar-responsive-collapse">
+          <ul class="nav">
+            <li<%= ' class="active"'.html_safe if params[:controller] == 'main' %>><%= link_to 'Predictor', root_path %></li>
+            <li<%= ' class="active"'.html_safe if params[:controller] == 'bracket' %>><%= link_to 'Bracket', bracket_path %></li>
+            <li<%= ' class="active"'.html_safe if params[:controller] == 'rank' %>><%= link_to 'Team Rank', rank_path %></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
 
 <%= yield %>
 
