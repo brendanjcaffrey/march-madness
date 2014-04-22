@@ -99,7 +99,6 @@ describe EspnScraperHelper do
       end
       it 'Big 10 should contain 12 entries and ACC should contain 15 entries' do
         assert(Team.all.count == 27)
-        # puts Team.all.count
       end  
       it 'Teams should contain "Illinois"' do
         assert(illinois != nil)
@@ -317,7 +316,6 @@ describe EspnScraperHelper do
         assert(Team.where(logo: nil).count == 0)
       end
       it 'illinois has the correct logo' do
-puts illinois.logo
         assert(illinois.logo == "http://a.espncdn.com/combiner/i?img=/i/teamlogos/ncaa/500/356.png&w=110&h=110&transparent=true")
       end
     end
