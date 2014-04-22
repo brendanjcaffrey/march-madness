@@ -1,83 +1,84 @@
 <div class="container">
-  <div class="page-header">
+  <div class="page-header" id="bracket">
     <h1>March Madness Bracket</h1>
   </div>
+
 <% @groups.each do |group, teams| %>
-  <div class="tournament16-wrap">
+  <div class="tournament16-wrap" data-group="<%= group %>">
     <h2><%= group %></h2>
-    <div class="round5-top winner5">Winner</div>
+    <div class="round5-top winner5" data-rank="1x16x8x9x5x12x4x13x6x11x3x14x7x10x2x15">&nbsp;</div>
     <div class="round4-topwrap">
-      <div class="round4-top">Top Winner</div>
+      <div class="round4-top" data-rank="1x16x8x9x5x12x4x13">&nbsp;</div>
       <div class="round3-topwrap">
-        <div class="round3-top">1/8 winner</div>
+        <div class="round3-top" data-rank="1x16x8x9">&nbsp;</div>
         <div class="round2-topwrap">
-          <div class="round2-top">1-16 winner</div>
-          <div class="round1-top">1. <%= team_tag(teams[1]) %></div>
-          <div class="round1-bottom">16. <%= team_tag(teams[16]) %></div>
+          <div class="round2-top" data-rank="1x16">&nbsp;</div>
+          <div class="round1-top" data-team="<%= teams[1].id %>" data-rank="1">1. <%= team_tag(teams[1]) %></div>
+          <div class="round1-bottom" data-team="<%= teams[16].id %>" data-rank="16">16. <%= team_tag(teams[16]) %></div>
         </div>
         <div class="round2-bottomwrap">
-          <div class="round2-bottom">8-9 winner</div>
-          <div class="round1-top">8. <%= team_tag(teams[8]) %></div>
-          <div class="round1-bottom">9. <%= team_tag(teams[9]) %></div>
+          <div class="round2-bottom" data-rank="8x9">&nbsp;</div>
+          <div class="round1-top" data-team="<%= teams[8].id %>" data-rank="8">8. <%= team_tag(teams[8]) %></div>
+          <div class="round1-bottom" data-team="<%= teams[9].id %>" data-rank="9">9. <%= team_tag(teams[9]) %></div>
         </div>
       </div>
       <div class="round3-bottomwrap">
-        <div class="round3-bottom">4/5 winner</div>
+        <div class="round3-bottom" data-rank="5x12x4x13">&nbsp;</div>
         <div class="round2-topwrap">
-          <div class="round2-top">5-12 winner</div>
-          <div class="round1-top">5. <%= team_tag(teams[5]) %></div>
-          <div class="round1-bottom">12. <%= team_tag(teams[12]) %></div>
+          <div class="round2-top" data-rank="5x12">&nbsp;</div>
+          <div class="round1-top" data-team="<%= teams[5].id %>" data-rank="5">5. <%= team_tag(teams[5]) %></div>
+          <div class="round1-bottom" data-team="<%= teams[12].id %>" data-rank="12">12. <%= team_tag(teams[12]) %></div>
         </div>
         <div class="round2-bottomwrap">
-          <div class="round2-bottom">4-13 winner</div>
-          <div class="round1-top">4. <%= team_tag(teams[4]) %></div>
-          <div class="round1-bottom">13. <%= team_tag(teams[13]) %></div>
+          <div class="round2-bottom" data-rank="4x13">&nbsp;</div>
+          <div class="round1-top" data-team="<%= teams[4].id %>" data-rank="4">4. <%= team_tag(teams[4]) %></div>
+          <div class="round1-bottom" data-team="<%= teams[13].id %>" data-rank="13">13. <%= team_tag(teams[13]) %></div>
         </div>
       </div>
     </div>
     <div class="round4-bottomwrap">
-      <div class="round4-bottom">Bottom Winner</div>
+      <div class="round4-bottom" data-rank="6x11x3x14x7x10x2x15">&nbsp;</div>
       <div class="round3-topwrap">
-        <div class="round3-top">2/7 winner</div>
+        <div class="round3-top" data-rank="6x11x3x14">&nbsp;</div>
         <div class="round2-topwrap">
-          <div class="round2-top">6-11 winner</div>
-          <div class="round1-top">6. <%= team_tag(teams[6]) %></div>
-          <div class="round1-bottom">11. <%= team_tag(teams[11]) %></div>
+          <div class="round2-top" data-rank="6x11">&nbsp;</div>
+          <div class="round1-top" data-team="<%= teams[6].id %>" data-rank="6">6. <%= team_tag(teams[6]) %></div>
+          <div class="round1-bottom" data-team="<%= teams[11].id %>" data-rank="11">11. <%= team_tag(teams[11]) %></div>
         </div>
         <div class="round2-bottomwrap">
-          <div class="round2-bottom">3-14 winner</div>
-          <div class="round1-top">3. <%= team_tag(teams[3]) %></div>
-          <div class="round1-bottom">14. <%= team_tag(teams[14]) %></div>
+          <div class="round2-bottom" data-rank="3x14">&nbsp;</div>
+          <div class="round1-top" data-team="<%= teams[3].id %>" data-rank="3">3. <%= team_tag(teams[3]) %></div>
+          <div class="round1-bottom" data-team="<%= teams[14].id %>" data-rank="14">14. <%= team_tag(teams[14]) %></div>
         </div>
       </div>
       <div class="round3-bottomwrap">
-        <div class="round3-bottom">3/6 winner</div>
+        <div class="round3-bottom" data-rank="7x10x2x15">&nbsp;</div>
         <div class="round2-topwrap">
-          <div class="round2-top">7-10 winner</div>
-          <div class="round1-top">7. <%= team_tag(teams[7]) %></div>
-          <div class="round1-bottom">10. <%= team_tag(teams[10]) %></div>
+          <div class="round2-top" data-rank="7x10">&nbsp;</div>
+          <div class="round1-top" data-team="<%= teams[7].id %>" data-rank="7">7. <%= team_tag(teams[7]) %></div>
+          <div class="round1-bottom" data-team="<%= teams[10].id %>" data-rank="10">10. <%= team_tag(teams[10]) %></div>
         </div>
         <div class="round2-bottomwrap">
-          <div class="round2-bottom">2-15 winner</div>
-          <div class="round1-top">2. <%= team_tag(teams[2]) %></div>
-          <div class="round1-bottom">15. <%= team_tag(teams[15]) %></div>
+          <div class="round2-bottom" data-rank="2x15">&nbsp;</div>
+          <div class="round1-top" data-team="<%= teams[2].id %>" data-rank="2">2. <%= team_tag(teams[2]) %></div>
+          <div class="round1-bottom" data-team="<%= teams[15].id %>" data-rank="15">15. <%= team_tag(teams[15]) %></div>
         </div>
       </div>
     </div>
   </div>
 <% end %>
-  <div class="tournament4-wrap">
+  <div class="tournament4-wrap" data-group="FF">
     <h2>Final Four</h2>
-    <div class="round3-top winner3">National Champion</div>
+    <div class="round3-top winner3" data-rank="sxexwxm">&nbsp;</div>
     <div class="round2-topwrap">
-      <div class="round2-top">S/E Winner</div>
-      <div class="round1-top">South Champion</div>
-      <div class="round1-bottom">East Champion</div>
+      <div class="round2-top" data-rank="sxe">&nsbp;</div>
+      <div class="round1-top" id="South" data-rank="s">&nbsp;</div>
+      <div class="round1-bottom" id="East" data-rank="e">&nbsp;</div>
     </div>
     <div class="round2-bottomwrap">
-      <div class="round2-bottom">W/MW Winner</div>
-      <div class="round1-top">West Winner</div>
-      <div class="round1-bottom">Midwest Winner</div>
+      <div class="round2-bottom" data-rank="wxm">&nsbp;</div>
+      <div class="round1-top" id="West" data-rank="w">&nbsp;</div>
+      <div class="round1-bottom" id="Midwest" data-rank="m">&nbsp;</div>
     </div>
   </div>
 </div>
