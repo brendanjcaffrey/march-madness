@@ -13,5 +13,9 @@ class ServerConnection
 	def getRanking
 		@client.gets.split(/:|\r\n/)
 	end
+
+	def close
+		@client.close
+	end
 end
 
