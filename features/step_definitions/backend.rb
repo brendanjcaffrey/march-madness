@@ -4,11 +4,14 @@ Given(/^the backend is connected$/) do
   @queue.connect
 end
 
-When(/^"(.+)" and "(.+)" are sent to the backend$/) do |team1, team2|
-  @queue.sendTeams(team1, team2)
+When(/^"(.+)" are sent to the backend$/) do |teams|
+  teams = teams.split(",")
+  @queue.sendTeams(teams)
 end
 
-Then(/^it should return "(.+)"$/) do |team|
-  expect(@queue.getWinner).to eq(team)
+Then(/^it should return "(.+)"$/) do |teams|
+  teams = teams.split(",")
+  matching = teams.zip(@queue.getRanking)
+  matching.each{|x,y| expect(x).to eq(y)}
 end
 
