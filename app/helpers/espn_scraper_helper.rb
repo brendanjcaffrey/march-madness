@@ -434,6 +434,7 @@ module EspnScraperHelper
     end  
   end
   
+  # Gets the webaddress of the logo for the given team
   def get_team_logo(team) 
     doc = getHTML("http://espn.go.com/mens-college-basketball/team/_/id/#{team.webExt}") 
     logo = doc.xpath("//meta[@property='og:image']/@content").text

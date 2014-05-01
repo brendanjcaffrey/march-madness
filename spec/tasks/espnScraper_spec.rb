@@ -5,6 +5,8 @@ include EspnScraperHelper
 
 describe EspnScraperHelper do
 
+  # Before initializer for all the tests
+  # Clears the database and gets all conferences
   before(:all) do
     Conference.delete_all
     Team.delete_all
@@ -61,7 +63,7 @@ describe EspnScraperHelper do
   end
 
   # Tests to make sure get_teams_from_conf(conf) is working correctly
-  # get_confs() should return teams with names, webExt, etc
+  # get_teams_from_conf(conf) should return teams with names, webExt, etc
   describe '.get_teams_from_conf(conf)' do
     describe 'scrape ESPN and populate Teams from the given conference' do
 
@@ -116,7 +118,7 @@ describe EspnScraperHelper do
   end
 
   # Tests to make sure get_team_scoring_stats(conf) is working correctly
-  # get_confs() should return teams with points, shooting averages
+  # get_team_scoring_stats(confs) should return teams with points, shooting averages
   describe '.get_team_scoring_stats(conf)' do
     describe 'scrape ESPN and update Teams with scoring stats' do
 
@@ -157,7 +159,7 @@ describe EspnScraperHelper do
   end
 
   # Tests to make sure get_team_adv_scoring_stats(conf) is working correctly
-  # get_confs() should return teams with twoPer, pps, adjFG
+  # get_team_adv_scoring_stats(conf) should return teams with twoPer, pps, adjFG
   describe 'get_team_adv_scoring_stats(conf)' do
     describe 'scrape ESPN and update Teams with advanced scoring stats' do
 
@@ -192,7 +194,7 @@ describe EspnScraperHelper do
   end
 
   # Tests to make sure get_team_assists_stats(conf) is working correctly
-  # get_confs() should return teams with assists, turnovers, etc
+  # get_team_assists_stats(conf) should return teams with assists, turnovers, etc
   describe 'get_team_assists_stats(conf)' do
     describe 'scrape ESPN and update Teams with assist stats' do
 
@@ -218,7 +220,7 @@ describe EspnScraperHelper do
   end
 
   # Tests to make sure get_team_rebounds_stats(conf) is working correctly
-  # get_confs() should return teams with off/def/total rebounds
+  # get_team_rebounds_stats() should return teams with off/def/total rebounds
   describe 'get_team_rebounds_stats(conf)' do
     describe 'scrape ESPN and update Teams with rebounding stats' do
 
@@ -244,7 +246,7 @@ describe EspnScraperHelper do
   end
 
   # Tests to make sure get_team_steals_stats(conf) is working correctly
-  # get_confs() should return teams with steals, fouls, etc
+  # get_team_steals(conf) should return teams with steals, fouls, etc
   describe 'get_team_steals_stats(conf)' do
     describe 'scrape ESPN and update Teams with steal stats' do
 
@@ -273,7 +275,7 @@ describe EspnScraperHelper do
   end
 
   # Tests to make sure get_team_blocks_stats(conf) is working correctly
-  # get_confs() should return teams with blocks
+  # get_cteam_blocks_stats should return teams with blocks
   describe 'get_team_blocks_stats(conf)' do
     describe 'scrape ESPN and update Teams with block stats' do
 
@@ -295,6 +297,8 @@ describe EspnScraperHelper do
     end
   end
 
+  # Tests to make sure get_team_logo(team) is working correctly
+  # get_team_logo(team) should return the team's logo JPEG
   describe 'get_team_logo(team)' do
     describe 'scrape ESPN and update Teams with logo' do
 
@@ -354,7 +358,7 @@ describe EspnScraperHelper do
   end
 
   # Tests to make sure get_game_stats(game) is working correctly
-  # get_confs() should return game with valid game data
+  # get_game_stats(game) should return game with valid game data
   describe 'get_game_stats(game)' do
     describe 'scrape ESPN and update a game with given stats for that game' do
 
