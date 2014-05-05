@@ -7,17 +7,16 @@ Ruby 2.0.0 or greater (check via `ruby -v`, see [rvm](rvm.io) for help upgrading
 ## Instructions
 * Clone the repository (`git clone git@github.com:brendanjcaffrey/march-madness.git`)
 * Run `bundle install` to install dependencies (and the correct version of Rails)
-* Run `rake db:migrate` to create the needed database tables
-* Run `rake espn:scrape` to scrape team stats and game results from ESPN (or just load the database from the email in db/)
 * Use `bundle exec rails s` to start the server on port 3000
 * This will start a development server that does not attempt to connect to the backend at all
+* Visit `http://localhost:3000/` in your browser to access the application
 
 ## Communicating with the backend
-* Get the backend to build first, obviously
+* Get the backend to build first
 * Run `bundle exec rake assets:precompile`
 * Run `bundle exec rails s -e production` to start the server
-* When prompted, start the predictor by running `bin/mme` on the backend, the server should then finish booting
-* Live prediction should then work on the main page
+* When prompted, start the predictor by running `./mme` on the backend, the server should then finish booting
+* Visit `http://localhost:3000/` in your browser to access the application
 * HOWEVER, if you precompile the assets (step 2), you MUST run `bundle exec rake assets:clobber` before running the integration tests again
 
 ## To run unit tests
